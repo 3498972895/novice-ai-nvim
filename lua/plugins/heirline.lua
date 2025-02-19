@@ -67,15 +67,7 @@ return {
 		local statusline = {
 
 			hl = { bg = colors.statusline_fill },
-
-			-- {
-			--
-			-- 	provider = "%=",
-			-- 	update = function()
-			-- 		return false
-			-- 	end,
-			-- },
-
+			condition = is_file(),
 			{
 				provider = justify,
 				init = function(self)
@@ -206,7 +198,7 @@ return {
 				provider = justify,
 				hl = { bold = true },
 				condition = function()
-					return vim.g.gitsigns_head
+					return vim.g.gitsigns_head and is_file()
 				end,
 				update = { "User", pattern = "GitsignsRefresh" },
 				init = function(self)
@@ -284,21 +276,6 @@ return {
 					update = "CursorMoved",
 				},
 			},
-			{
-				provider = justify,
-				hl = { bold = true },
-				condition = function()
-					return vim.g.gitsigns_head
-				end,
-				update = { "User", pattern = "GitsignsRefresh" },
-				init = function(self)
-					if vim.g.gitsigns_head then
-						self.content = " " .. vim.g.gitsigns_head
-					else
-						self.content = ""
-					end
-				end,
-			},
 		}
 		local winbar = {
 			hl = { bg = colors.winbar_bg },
@@ -318,34 +295,6 @@ return {
 				condition = is_file,
 			},
 		}
-
-		-- local tabline_offset = {
-		-- 	condition = function(self)
-		-- 		local win = vim.api.nvim_tabpage_list_wins(0)[1]
-		-- 		local bufnr = vim.api.nvim_win_get_buf(win)
-		-- 		self.winid = win
-		--
-		-- 		if vim.bo[bufnr].filetype == "neo-tree" or vim.bo[bufnr].filetype == "NvimTree" then
-		-- 			self.title = "File Directory"
-		-- 			return true
-		-- 		end
-		-- 	end,
-		--
-		-- 	provider = function(self)
-		-- 		local title = self.title
-		-- 		local width = vim.api.nvim_win_get_width(self.winid)
-		-- 		local pad = math.ceil((width - #title)) - 1
-		-- 		return "  " .. title .. string.rep(" ", pad)
-		-- 	end,
-		--
-		-- 	hl = function(self)
-		-- 		if vim.api.nvim_get_current_win() == self.winid then
-		-- 			return { fg = colors.sidebar_active_fg }
-		-- 		else
-		-- 			return { fg = colors.sidebar_inactive_fg }
-		-- 		end
-		-- 	end,
-		-- }
 		local bufferline = heirline_utils.make_buflist({
 			init = function(self)
 				self.filename = vim.api.nvim_buf_get_name(self.bufnr)
