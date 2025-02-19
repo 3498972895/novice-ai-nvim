@@ -12,9 +12,11 @@ return {
 			end,
 		},
 		{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+		{ "jonarrien/telescope-cmdline.nvim" },
 	},
 	opts = function()
 		require("telescope").load_extension("fzf")
+		require("telescope").load_extension("cmdline")
 		local actions = require("telescope.actions")
 		return {
 			defaults = {
@@ -61,6 +63,7 @@ return {
 		{ "<leader>fb", ":Telescope buffers<CR>", desc = "Telescope BUFFERS" },
 		{ "<leader>fh", ":Telescope help_tags<CR>", desc = "Telescope HELP TAGS" },
 		{ "<leader>fw", ":Telescope grep_string<CR>", desc = "Telescope FIND WORDS" },
+		{ ":", "<cmd>Telescope cmdline<cr>", desc = "TELESCOPE CMDLINE" },
 		-- { "<leader>ff", ":Telescope find_files<CR>", desc = "Telescope find file" },
 	},
 }
