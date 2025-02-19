@@ -23,7 +23,7 @@ return {
 						end_point = "http://127.0.0.1:1234/v1/completions",
 						model = "qwen2.5-coder-1.5b-instruct",
 						optional = {
-							max_tokens = 20,
+							max_tokens = 12,
 						},
 					},
 				},
@@ -76,7 +76,7 @@ return {
 
 					window = {
 						layout = "float",
-						height = 0.45,
+						height = 0.65,
 						width = 0.75,
 					},
 				},
