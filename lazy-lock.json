@@ -1,4 +1,5 @@
 {
+  "VectorCode": { "branch": "main", "commit": "890f8fbb384df1082ec36a254f0ba8591055fbdb" },
   "alpha-nvim": { "branch": "main", "commit": "de72250e054e5e691b9736ee30db72c65d560771" },
   "blink.cmp": { "branch": "main", "commit": "18b352d12b35bca148427b607098df14b75a218f" },
   "bufdelete.nvim": { "branch": "master", "commit": "f6bcea78afb3060b198125256f897040538bcb81" },

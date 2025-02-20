@@ -2,8 +2,22 @@ return {
 	{
 
 		"milanglacier/minuet-ai.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		dependencies = {
+			{
+				"Davidyz/VectorCode",
+				version = "*",
+				dependencies = { "nvim-lua/plenary.nvim" },
+				cmd = "VectorCode",
+				config = function()
+					require("vectorcode").setup({
+						-- number of retrieved documents
+						n_query = 1,
+					})
+				end,
+			},
+		},
 		config = function()
+			local vectorcode_cacher = require("vectorcode.cacher")
 			require("minuet").setup({
 				prequest_timeout = 10,
 				provider = "openai_fim_compatible",
@@ -23,7 +37,31 @@ return {
 						end_point = "http://127.0.0.1:1234/v1/completions",
 						model = "qwen2.5-coder-1.5b-instruct",
 						optional = {
-							max_tokens = 12,
+							max_tokens = 50,
+						},
+						stream = true,
+						template = {
+							-- prompt = function(context_before_cursor, context_after_cursor) end,
+							-- suffix = function(context_before_cursor, context_after_cursor) end,
+
+							prompt = function(pref, suff)
+								local prompt_message = ""
+								local cache_result = vectorcode_cacher.query_from_cache(0)
+								for _, file in ipairs(cache_result) do
+									prompt_message = prompt_message
+										.. "<|file_sep|>"
+										.. file.path
+										.. "\n"
+										.. file.document
+								end
+								return prompt_message
+									.. "<|fim_prefix|>"
+									.. pref
+									.. "<|fim_suffix|>"
+									.. suff
+									.. "<|fim_middle|>"
+							end,
+							suffix = false,
 						},
 					},
 				},
@@ -89,7 +127,7 @@ return {
 						},
 						schema = {
 							model = {
-								default = "qwen2.5.1-coder-7b-instruct",
+								default = "qwen2.5.1-coder-14b-instruct",
 								chat_url = "/v1/chat/completions",
 							},
 						},
